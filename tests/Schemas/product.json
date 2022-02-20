@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Product",
+    "type" : "object",
+    "properties" : {
+        "id": {
+            "type": "integer"
+        },
+        "code": {
+            "type": "string"
+        },
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "price": {
+            "type": "integer"
+        },
+        "versions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "$ref": "product-version.json"
+            }
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time"
+        }
+    },
+    "required" : [
+        "id",
+        "title",
+        "description",
+        "price",
+        "versions",
+        "created_at"
+    ]
+}
