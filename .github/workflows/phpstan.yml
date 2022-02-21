@@ -1,0 +1,32 @@
+name: "PHPStan"
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  static-analysis:
+    name: "PHPStan"
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version:
+          - 8.1
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2
+      - name: "Install PHP with extensions"
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: "gd, intl, json, mbstring, pdo"
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-progress --prefer-dist
+      - name: "Run static analysis with phpstan"
+        run: vendor/bin/phpstan analyze --configuration=phpstan.neon
