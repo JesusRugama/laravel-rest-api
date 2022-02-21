@@ -1,0 +1,27 @@
+name: PHPCS
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  phpcs:
+    name: PHPCS
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Select PHP 8.1
+        run: sudo update-alternatives --set php /usr/bin/php8.1 && php --version
+
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: composer install --dev --prefer-dist --no-progress --no-suggest
+
+      - name: PHPCS check
+        run: ./vendor/bin/phpcs
